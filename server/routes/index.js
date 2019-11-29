@@ -5,6 +5,7 @@ var Cap = require('cap').Cap;
 var decoders = require('cap').decoders;
 var PROTOCOL = decoders.PROTOCOL;
 var c = new Cap();
+
 var device = Cap.findDevice('10.10.4.133');
 var filter = 'tcp and dst port 80';
 var bufSize = 10 * 1024 * 1024;
