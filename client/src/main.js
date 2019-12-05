@@ -2,16 +2,25 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import Resource from 'vue-resource'
 import echarts from 'echarts'
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
 
-Vue.config.productionTip = false
-Vue.prototype.$echarts = echarts
+Vue.config.productionTip = false;
+
+Vue.use(Resource);
+Vue.prototype.$echarts = echarts;
+Vue.use(ViewUI);
+
+
+Vue.http.options.root = 'http://localhost:3000/';
+Vue.http.options.emulateJson = true;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  //router,
   components: { App },
   template: '<App/>'
-})
+});
