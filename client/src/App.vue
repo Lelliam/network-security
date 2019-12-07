@@ -33,4 +33,16 @@
     text-align: center;
     color: #2c3e50;
   }
+
+  .ivu-card,
+  .ivu-card-body {
+    padding: 0;
+    font-size:12px;
+  }
+
+  .ivu-card-vertical,
+  .ivu-card-body,
+  .ivu-steps-main {
+    text-align: left;
+  }
 </style>

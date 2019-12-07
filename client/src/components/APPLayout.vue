@@ -1,43 +1,8 @@
 <template>
   <div id="layout">
-    <div id="slide-mask" @mouseover="sliderStatus=true"></div>
-    <Drawer title="功能选择" placement="left" :closable="sliderStatus" v-model="sliderStatus">
-      <Menu active-name="1-2" theme="light" width="auto">
-        <router-link  to="/function01" >
-          <MenuItem name="1-1">
-            <Icon type="ios-navigate"></Icon>
-            <span>测试功能</span>
-          </MenuItem>
-        </router-link>
-        <router-link  to="/function02" >
-          <MenuItem name="1-2">
-            <Icon type="ios-search"></Icon>
-            <span>测试功能</span>
-          </MenuItem>
-        </router-link>
-        <router-link  to="/function03" >
-          <MenuItem name="1-3">
-            <Icon type="ios-settings"></Icon>
-            <span>测试功能</span>
-          </MenuItem>
-        </router-link>
-        <router-link  to="/function04" >
-          <MenuItem name="1-4">
-            <Icon type="ios-settings"></Icon>
-            <span>测试功能</span>
-          </MenuItem>
-        </router-link>
-        <router-link  to="/function05" >
-          <MenuItem name="1-5">
-            <Icon type="ios-settings"></Icon>
-            <span>测试功能</span>
-          </MenuItem>
-        </router-link>
-      </Menu>
-    </Drawer>
     <Layout>
       <Header :style="{position: 'fixed', width: '100%'}">
-        <h2 class="layout-title">Data&nbsp;&nbsp;&nbsp;Visualization&nbsp;&nbsp;&nbsp;System</h2>
+        <h2 class="layout-title">Network&nbsp;&nbsp;&nbsp;Security&nbsp;&nbsp;&nbsp;Events&nbsp;&nbsp;&nbsp;Visualization</h2>
       </Header>
       <Content>
         <router-view></router-view>
@@ -133,12 +98,6 @@
   }
   .ivu-breadcrumb{
     text-align: left;
-  }
-  #slide-mask{
-    position: absolute;
-    z-index: 999;
-    width: 10px;
-    height: 100%;
   }
   .ivu-layout-footer{
     padding: 10px 10px;

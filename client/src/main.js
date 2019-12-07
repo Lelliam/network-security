@@ -14,8 +14,8 @@ Vue.prototype.$echarts = echarts;
 Vue.use(ViewUI);
 
 
-Vue.http.options.root = 'http://localhost:3000/';
-Vue.http.options.emulateJson = true;
+//Vue.http.options.root = 'http://localhost:3000/';
+//Vue.http.options.emulateJson = true;
 
 /* eslint-disable no-new */
 new Vue({
