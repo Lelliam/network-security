@@ -34,11 +34,11 @@ class CallBack(WinPcapUtils):
 
         packetHead.append(["Ethernet Information",etherHead])
 
-        '''item = [
+        item = [
             etherHead["Source"],
             etherHead["Destination"],
             etherHead["Protocol Type"]
-            ]'''
+            ]
         if proto == "0x0800":
             ipv4Head = {
                 "Version":packet[14]>>4,
@@ -65,9 +65,9 @@ class CallBack(WinPcapUtils):
                 ipv4Head["Option Length"] = packet[35]
                 ds = 36
             packetHead.append(["IPv4 Information",ipv4Head])
-            '''item[0] = ipv4Head["Source IP Address"]
+            item[0] = ipv4Head["Source IP Address"]
             item[1] = ipv4Head["Destination IP Address"]
-            item[2] = ipv4Head["Protocol"]'''
+            item[2] = ipv4Head["Protocol"]
         print(packetHead)
       except KeyboardInterrupt:
         win_pcap.stop()
@@ -75,6 +75,6 @@ class CallBack(WinPcapUtils):
 def main():
     cap = WinPcapUtils()
     '''WinPcapUtils.capture_on_and_print("*Intel**Ethernet*")'''
-    cap.capture_on("*Intel**Ethernet*",CallBack.packet_printer_callback)
+    cap.capture_on("*Ethernet*",CallBack.packet_printer_callback)
 if __name__ == '__main__':
     main()
