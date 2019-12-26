@@ -77,9 +77,9 @@
                         },
                         itemStyle: {
                             normal: {
-                                color: '#323c48',
+                                color: 'rgba(50,60,72,0.16)',
                                 borderWidth: 1,
-                                borderColor: '#101e2c'
+                                borderColor: '#ccbbbc'
                             }
                         }
                     }],
@@ -94,7 +94,7 @@
                             },
                             itemStyle: {
                                 normal: {
-                                    color: '#ddb926'
+                                    color: '#228ddd'
                                 }
                             }
                         },
@@ -115,9 +115,9 @@
                             hoverAnimation: true,
                             itemStyle: {
                                 normal: {
-                                    color: '#f4e925',
+                                    color: '#dd634c',
                                     shadowBlur: 10,
-                                    shadowColor: '#333'
+                                    shadowColor: '#7e7e7e'
                                 }
                             },
                             zlevel: 1

@@ -1,17 +1,26 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-var Cap = require('cap').Cap;
-var decoders = require('cap').decoders;
-var PROTOCOL = decoders.PROTOCOL;
-var c = new Cap();
+let faker = require('faker');
+for(let i =0;i<10;i++){
+  console.log(
+      faker.internet.ip(),
+      faker.internet.protocol(),
+      faker.internet.mac(),
+      faker.internet.domainName(),
+  );
+}
+/*let Cap = require('cap').Cap;
+let decoders = require('cap').decoders;
+let PROTOCOL = decoders.PROTOCOL;
+let c = new Cap();
 
-var device = Cap.findDevice('10.10.4.133');
-var filter = 'tcp and dst port 80';
-var bufSize = 10 * 1024 * 1024;
-var buffer = Buffer.alloc(65535);
+let device = Cap.findDevice('10.10.4.133');
+let filter = 'tcp and dst port 80';
+let bufSize = 10 * 1024 * 1024;
+let buffer = Buffer.alloc(65535);
 
-var linkType = c.open(device, filter, bufSize, buffer);
+let linkType = c.open(device, filter, bufSize, buffer);
 
 c.setMinBytes && c.setMinBytes(0);
 
@@ -22,7 +31,7 @@ c.on('packet', function(nbytes, trunc) {
   // raw packet data === buffer.slice(0, nbytes)
 
   if (linkType === 'ETHERNET') {
-    var ret = decoders.Ethernet(buffer);
+    let ret = decoders.Ethernet(buffer);
 
     if (ret.info.type === PROTOCOL.ETHERNET.IPV4) {
       console.log('Decoding IPv4 ...');
@@ -31,7 +40,7 @@ c.on('packet', function(nbytes, trunc) {
       console.log('from: ' + ret.info.srcaddr + ' to ' + ret.info.dstaddr);
 
       if (ret.info.protocol === PROTOCOL.IP.TCP) {
-        var datalen = ret.info.totallen - ret.hdrlen;
+        let datalen = ret.info.totallen - ret.hdrlen;
 
         console.log('Decoding TCP ...');
 
@@ -50,7 +59,7 @@ c.on('packet', function(nbytes, trunc) {
     } else
       console.log('Unsupported Ethertype: ' + PROTOCOL.ETHERNET[ret.info.type]);
   }
-});
+});*/
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
