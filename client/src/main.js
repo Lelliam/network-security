@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import Resource from 'vue-resource'
 import echarts from 'echarts'
+import store from "./vuex/store";
 import ViewUI from 'view-design'
 import 'view-design/dist/styles/iview.css'
 
@@ -17,6 +18,7 @@ Vue.use(ViewUI);
 new Vue({
   el: '#app',
   //router,
+  store,
   components: { App },
   template: '<App/>'
 });

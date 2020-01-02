@@ -7,11 +7,11 @@
     export default {
         name: "AppTimeLine",
         mounted() {
-            this.getData();
+            this.Update();
         },
         methods:{
-            getData(){
-                DataManager.Data_Lime100_length(0).then(res=>{
+            getData(start){
+                DataManager.Data_Lime100_length(start).then(res=>{
                     console.log(res.data);
                     this.Draw(res.data);
                 });
@@ -175,6 +175,12 @@
                 };
 
                 chart.setOption(option);
+            },
+            Update(){
+                //let i = 0;
+                //setInterval(()=>{
+                    this.getData(0);
+               /// },1000)
             }
         }
     }

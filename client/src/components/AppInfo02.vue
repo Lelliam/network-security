@@ -7,12 +7,11 @@
     export default {
         name: "AppNodeLink",
         mounted() {
-            this.getData();
+            this.Update();
         },
         methods:{
-            getData(){
-                DataManager.Data_lim100(0).then(res=>{
-                    console.log(res.data);
+            getData(start){
+                DataManager.Data_lim100(start).then(res=>{
                     this.Draw(res.data)
                 });
             },
@@ -32,7 +31,6 @@
                     node.draggable = true;
                 });
 
-                console.log(graph.nodes);
                 let option = {
                     title: {
                         show:true,
@@ -72,7 +70,13 @@
                     }
                     ]
                 };
-                myChart.setOption(option);
+                myChart.setOption(option,true);
+            },
+            Update(){
+                // let i = 0;
+                // setInterval(()=>{
+                    this.getData(0);
+                // },1000)
             }
         }
     }
