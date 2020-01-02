@@ -3,77 +3,76 @@
 </template>
 
 <script>
-    import $ from 'jquery'
+    import DataManager from "../DataManager/DataManager";
     export default {
-        name: "AppInfo02",
+        name: "AppNodeLink",
         mounted() {
-            this.init_chart();
+            this.getData();
         },
         methods:{
-            init_chart(){
-                let echarts = this.$echarts;
+            getData(){
+                DataManager.Data_lim100(0).then(res=>{
+                    console.log(res.data);
+                    this.Draw(res.data)
+                });
+            },
+            Draw(graph){
                 let myChart = this.$echarts.init(document.getElementById('info02'));
-                myChart.showLoading();
-                $.get('../../static/les-miserables.gexf', function (xml) {
-                    myChart.hideLoading();
-
-                    let graph = echarts.dataTool.gexf.parse(xml);
-                    let categories = [];
-                    for (let i = 0; i < 9; i++) {
-                        categories[i] = {
-                            name: '类目' + i
-                        };
-                    }
-                    graph.nodes.forEach(function (node) {
-                        node.itemStyle = null;
-                        node.symbolSize = 10;
-                        node.value = node.symbolSize;
-                        node.category = node.attributes.modularity_class;
-                        // Use random x, y
-                        node.x = node.y = null;
-                        node.draggable = true;
-                    });
-                    let option = {
-                        //backgroundColor: '#515a6e',
-                        title: {
-                            show:false,
-                            text: 'Les Miserables',
-                            subtext: 'Default layout',
-                            top: 'bottom',
-                            left: 'right'
-                        },
-                        tooltip: {},
-                        legend: [{
-                            show:false,
-                            // selectedMode: 'single',
-                            data: categories.map(function (a) {
-                                return a.name;
-                            })
-                        }],
-                        animation: false,
-                        series : [
-                            {
-                                name: 'Les Miserables',
-                                type: 'graph',
-                                layout: 'force',
-                                data: graph.nodes,
-                                links: graph.links,
-                                categories: categories,
-                                roam: true,
-                                label: {
-                                    normal: {
-                                        position: 'right'
-                                    }
-                                },
-                                force: {
-                                    repulsion: 100
-                                }
-                            }
-                        ]
+                let categories = [0,1,2,3,4,5];
+                graph.nodes.forEach(function (node) {
+                    node.itemStyle = {
+                        normal: {
+                            color:'#ff6267'
+                        }
                     };
+                    node.symbolSize = 15;
+                    node.category = Math.floor(Math.random()*5);
+                    // Use random x, y
+                    node.x = node.y = null;
+                    node.draggable = true;
+                });
 
-                    myChart.setOption(option);
-                }, 'xml');
+                console.log(graph.nodes);
+                let option = {
+                    title: {
+                        show:true,
+                        text: '网络拓扑结构',
+                        subtext: 'force layout',
+                        top: '0',
+                        left: '0'
+                    },
+                    tooltip: {},
+                    legend: [{
+                        show:false,
+                        // selectedMode: 'single',
+                        data: categories.map(function (a) {
+                            return a;
+                        })
+                    }],
+                    animation: false,
+                    series : [{
+                        name: 'Les Miserables',
+                        zoom:.4,
+                        type: 'graph',
+                        layout: 'force',
+                        data: graph.nodes,
+                        links: graph.links,
+                        categories: categories,
+                        roam: true,
+                        itemStyle:{
+                        },
+                        label: {
+                            normal: {
+                                position: 'right'
+                            }
+                        },
+                        force: {
+                            repulsion: 100
+                        }
+                    }
+                    ]
+                };
+                myChart.setOption(option);
             }
         }
     }

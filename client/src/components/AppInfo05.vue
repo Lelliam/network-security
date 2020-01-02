@@ -3,91 +3,72 @@
 </template>
 
 <script>
-    import $ from 'jquery'
-    import '../../static/dataTool'
+    import DataManager from "../DataManager/DataManager";
     export default {
         name: "AppInfo05",
         mounted() {
-            this.init_chart();
+            this.getData();
         },
         methods:{
-            init_chart(){
-                let echarts = this.$echarts;
+            getData(){
+              DataManager.Data_lim100(0).then(res=>{
+                  this.Draw(res.data);
+              });
+            },
+            Draw(graph){
+
                 let myChart = this.$echarts.init(document.getElementById('info05'));
-                myChart.showLoading();
-                $.get('../../static/les-miserables.gexf', function (xml) {
-                    myChart.hideLoading();
 
-                    let graph =new echarts.dataTool.gexf.parse(xml);
-                    let categories = [];
-                    for (let i = 0; i < 9; i++) {
-                        categories[i] = {
-                            name: '类目' + i
-                        };
-                    }
-                    graph.nodes.forEach(function (node) {
-                        node.itemStyle = null;
-                        node.value = node.symbolSize;
-                        node.symbolSize /= 1.5;
-                        node.label = {
-                            normal: {
-                                show: node.symbolSize >10,
-                                textStyle:{
-                                    'fontSize':10
-                                }
-                            }
-                        };
-                        node.category = node.attributes.modularity_class;
-                    });
-                    let option = {
-                        //backgroundColor: '#515a6e',
-                        title: {
-                            show:false,
-                            text: 'Les Miserables',
-                            subtext: 'Circular layout',
-                            top: 'bottom',
-                            left: 'right'
+                //let categories = ['1','2','3','4'];
+
+                graph.nodes.forEach(function (node,i) {
+                    node.itemStyle = null;
+                    // node.symbolSize = 15;
+                    node.symbolSize = node.value;
+                    //node.category = '1';
+                    // Use random x, y
+                    node.x = node.y = null;
+                    node.draggable = true;
+                });
+
+                let option = {
+                    title: {
+                        show:true,
+                        text: '网络拓扑结构',
+                        subtext: 'circular layout',
+                        top: '0',
+                        left: '0'
+                    },
+                    tooltip: {},
+                    // legend: [{
+                    //     show:false,
+                    //     // selectedMode: 'single',
+                    //     data: categories
+                    // }],
+                    animation: false,
+                    series : [{
+                        name: 'circular layout',
+                        zoom:.9,
+                        type: 'graph',
+                        layout: 'circular',
+                        data: graph.nodes,
+                        links: graph.links,
+                        //categories: categories,
+                        roam: true,
+                        itemStyle:{
                         },
-                        tooltip: {},
-                        legend: [{
-                            show:false,
-                            // selectedMode: 'single',
-                            data: categories.map(function (a) {
-                                return a.name;
-                            })
-                        }],
-                        animationDurationUpdate: 1500,
-                        animationEasingUpdate: 'quinticInOut',
-                        series : [
-                            {
-                                name: 'Les Miserables',
-                                type: 'graph',
-                                layout: 'circular',
-                                circular: {
-                                    rotateLabel: true
-                                },
-                                data: graph.nodes,
-                                links: graph.links,
-                                categories: categories,
-                                roam: true,
-                                label: {
-                                    normal: {
-                                        position: 'right',
-                                        formatter: '192.188.88.09'
-                                    }
-                                },
-                                lineStyle: {
-                                    normal: {
-                                        color: 'source',
-                                        curveness: 0.3
-                                    }
-                                }
+                        label: {
+                            normal: {
+                                position: 'right'
                             }
-                        ]
-                    };
-
-                    myChart.setOption(option);
-                }, 'xml');
+                        },
+                        force: {
+                            repulsion: 100
+                        }
+                    }
+                    ]
+                };
+                myChart.setOption(option);
             }
         }
     }

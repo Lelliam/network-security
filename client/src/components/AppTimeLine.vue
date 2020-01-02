@@ -3,91 +3,39 @@
 </template>
 
 <script>
+    import DataManager from "../DataManager/DataManager";
     export default {
         name: "AppTimeLine",
         mounted() {
-            this.init_chart();
+            this.getData();
         },
         methods:{
-            init_chart(){
+            getData(){
+                DataManager.Data_Lime100_length(0).then(res=>{
+                    console.log(res.data);
+                    this.Draw(res.data);
+                });
+            },
+            Draw(data){
 
                 let echarts = this.$echarts;
                 let chart = this.$echarts.init(document.getElementById('time_line'));
 
-                let xData = function() {
-                    let data = [];
-                    for (let i = 2011; i < 2017; i++) {
-                        data.push(i + "年");
-                    }
-                    return data;
-                }();
                 let color = ['#1a9bfc', '#99da69', '#e32f46', '#7049f0', '#fa704d', '#01babc', ];
-                let name = ['学前教育', '义务教育', '高中教育', '高等教育', '教师队伍', '教学条件'];
-                let data = [
-                    [13.7, 3.4, 13.5, 16.1, 7.4, 15.2],
-                    [17.4, 13.7, 13.5, 3.4, 15.2, 13.5],
-                    [13.4, 7.4, 13.7, 13.5, 16.1, 13.7],
-                    [3.5, 15.2, 16.1, 17.4, 13.4, 6.1],
-                    [16.1, 13.5, 3.7, 17.4, 15.2, 18.9],
-                    [17.4, 6.1, 13.4, 15.2, 13.7, 5.2],
-                ];
 
-                let series = [];
-                for (let i = 0; i < 6; i++) {
-                    series.push({
-                        name: name[i],
-                        type: "line",
-                        symbolSize: 3,//标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为20，高为10[ default: 4 ]
-                        symbol: 'circle',//标记的图形。ECharts 提供的标记类型包括 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'
-                        smooth: true, //是否平滑曲线显示
-                        showSymbol: false, //是否显示 symbol, 如果 false 则只有在 tooltip hover 的时候显示
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: color[i]
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgb(73,238,255,.01)'
-                                }], false),
-                                // shadowColor: 'rgba(255,255,255, 0.1)',
-                                //shadowBlur: 10,
-                                opacity:0.3,
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: color[i],
-                                lineStyle: {
-                                    width: .5,
-                                    type: 'solid' //'dotted'虚线 'solid'实线
-                                },
-                                borderColor: color[i], //图形的描边颜色。支持的格式同 color
-                                borderWidth: 8 ,//描边线宽。为 0 时无描边。[ default: 0 ]
-                                barBorderRadius: 0,
-                                label: {
-                                    show: false,
-                                },
-                                opacity:0.5,
-                            }
-                        },
-                        data: data[i],
-
-                    })
-                }
                 let option = {
                     //backgroundColor: '#515a6e',
-                    legend: {
-                        show:false,
-                        top: 20,
-                        itemGap:5,
-                        itemWidth:5,
-                        textStyle: {
-                            color: '#fff',
-                            fontSize: '10'
-                        },
-                        data: name
-                    },
+                    // legend: {
+                    //     show:false,
+                    //     top: 20,
+                    //     itemGap:5,
+                    //     itemWidth:5,
+                    //     textStyle: {
+                    //         color: '#fff',
+                    //         fontSize: '10'
+                    //     },
+                    //     data: ''
+                    // },
                     title: {
                         show:false,
                         text: "负面言论分领域趋势",
@@ -103,7 +51,7 @@
                         },
                     },
                     tooltip: {
-                        show:false,
+                        show:true,
                         trigger: "axis",
                         axisPointer: { // 坐标轴指示器，坐标轴触发有效
                             type: 'line', // 默认为直线，可选为：'line' | 'shadow'
@@ -111,7 +59,7 @@
                                 color: '#57617B'
                             }
                         },
-                        formatter: '{b}<br />{a0}: {c0}%<br />{a1}: {c1}%<br />{a2}: {c2}%<br />{a3}: {c3}%<br />{a4}: {c4}%<br />{a5}: {c5}%',
+                        //formatter: '{b}<br />{a0}: {c0}%<br />{a1}: {c1}%<br />{a2}: {c2}%<br />{a3}: {c3}%<br />{a4}: {c4}%<br />{a5}: {c5}%',
                         backgroundColor: 'rgba(0,0,0,0.7)', // 背景
                         padding: [8, 10], //内边距
                         extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
@@ -156,7 +104,7 @@
                                 fontSize: '12',
                             },
                         },
-                        data: xData,
+                        data: data.map(d=>d.date),
                     }],
                     yAxis: {
                         type: 'value',
@@ -182,10 +130,48 @@
                                 fontWeight: 'normal',
                                 fontSize: '12',
                             },
-                            formatter: '{value}%',
+                            //formatter: '{value}%',
                         },
                     },
-                    series: series,
+                    series: [{
+                        name: '总流量',
+                        type: "line",
+                        symbolSize: 3,//标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为20，高为10[ default: 4 ]
+                        symbol: 'circle',//标记的图形。ECharts 提供的标记类型包括 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'
+                        smooth: true, //是否平滑曲线显示
+                        showSymbol: false, //是否显示 symbol, 如果 false 则只有在 tooltip hover 的时候显示
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(255,134,20,0.4)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgb(73,238,255,.01)'
+                                }], false),
+                                // shadowColor: 'rgba(255,255,255, 0.1)',
+                                //shadowBlur: 10,
+                                opacity:0.3,
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#ff8614',
+                                lineStyle: {
+                                    width: .5,
+                                    type: 'solid' //'dotted'虚线 'solid'实线
+                                },
+                                borderColor: '#FFF', //图形的描边颜色。支持的格式同 color
+                                borderWidth: 8 ,//描边线宽。为 0 时无描边。[ default: 0 ]
+                                barBorderRadius: 0,
+                                label: {
+                                    show: false,
+                                },
+                                opacity:0.5,
+                            }
+                        },
+                        data: data
+                    }],
                 };
 
                 chart.setOption(option);

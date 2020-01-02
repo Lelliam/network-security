@@ -3,18 +3,29 @@
 </template>
 
 <script>
-    import '../../static/world'
+
+    import DataManager from "../DataManager/DataManager";
     export default {
         name: "AppInfo06",
         mounted() {
-            this.init_chart();
+            this.getData();
         },
         methods:{
-            init_chart(){
+            getData(){
+                DataManager.Data_Lime100_port(0).then(res=>{
+                    console.log(res.data);
+                    this.Draw(res.data);
+                });
+            },
+            Draw(data){
                 let echarts = this.$echarts;
                 let chart = this.$echarts.init(document.getElementById('info06'));
                 let option = {
                     //backgroundColor: '#515a6e',
+                    title:{
+                        text:'端口使用情况',
+                        subtext:'Ports Used'
+                    },
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -22,14 +33,14 @@
                         }
                     },
                     grid: {
-                        top: '15%',
+                        top: '22%',
                         right: '5%',
                         left: '10%',
                         bottom: '15%'
                     },
                     xAxis: [{
                         type: 'category',
-                        data: ['port', 'port','port', 'port', 'port', 'port', 'port', 'port', 'port', 'port', 'port', 'port', 'port'],
+                        data: data.map(d=>d.name),
                         axisLine: {
                             lineStyle: {
                                 color: 'rgba(150,146,161,0.74)'
@@ -64,8 +75,9 @@
                         }
                     }],
                     series: [{
+                        name:'端口',
                         type: 'bar',
-                        data: [300, 450, 770, 203, 255, 188, 156,300, 450, 770, 203, 255, 188, ],
+                        data: data.map(d=>d.value),
                         barWidth: '10px',
                         itemStyle: {
                             normal: {

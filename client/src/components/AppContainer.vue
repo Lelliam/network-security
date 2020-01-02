@@ -18,7 +18,7 @@
 
 <script>
 
-    import AppMain from "./AppMain";
+    import AppMain from './AppMain';
     import AppTimeLine from "./AppTimeLine";
     import AppInfo01 from "./AppInfo01";
     import AppInfo02 from "./AppInfo02";

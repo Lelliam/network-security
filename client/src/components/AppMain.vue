@@ -4,154 +4,52 @@
 
 <script>
     import '../../static/world'
+    import DataManager from "../DataManager/DataManager";
     export default {
         name: "AppMain",
         mounted() {
-            this.init_chart();
+            this.test();
         },
         methods:{
-            init_chart(){
+            test(){
+                DataManager.Test().then(res=>{
+                    console.log(res.data);
+                    this.init_chart(res.data);
+                });
+            },
+            init_chart(data){
 
                 let echarts = this.$echarts;
-                let chart = this.$echarts.init(document.getElementById('main'));
+                let chart = this.$echarts.init(this.$el,'main');
 
-                let allData = {
-                    "citys": [{
-                        "name": "香港",
-                        "value": [114.195466, 22.282751,100],
-                        "symbolSize": 20,
-                        "itemStyle": {
-                            "normal": {
-                                "color": "#F58158"
+                let graph ={
+                    nodes:data.map(d=>{
+                        return {
+                            "name":d.ip,
+                            "value": [d.longitude, d.latitude],
+                            "symbolSize": 10,
+                            "itemStyle": {
+                                "normal": {
+                                    "color": "#F58158"
+                                }
                             }
                         }
-                    },{
-                        "name": "加拿大温哥华",
-                        "value": [-123.023921, 49.311753, -30],
-                        "symbolSize": 2,
-                        "itemStyle": {
-                            "normal": {
-                                "color": "#58B3CC"
+                    }),
+                    links: [...Array(50)].map(d=> {
+                        let random1 = Math.floor(Math.random()*data.length);
+                        let random2 = Math.floor(Math.random()*data.length);
+                            return {
+                                "fromName": data[random1].ip,
+                                "toName": data[random2].ip,
+                                "coords": [
+                                    [data[random1].longitude, data[random1].latitude],
+                                    [data[random2].longitude, data[random2].latitude]
+                                ]
                             }
                         }
-                    },{
-                        "name": "美国洛杉矶",
-                        "value": [-118.24311, 34.052713, 2],
-                        "symbolSize": 8,
-                        "itemStyle": {
-                            "normal": {
-                                "color": "#58B3CC"
-                            }
-                        }
-                    },{
-                        "name": "英国曼彻斯特",
-                        "value": [-1.657222, 51.886863, 10],
-                        "symbolSize": 14,
-                        "itemStyle": {
-                            "normal": {
-                                "color": "#58B3CC"
-                            }
-                        }
-                    },{
-                        "name": "澳大利亚墨尔本",
-                        "value": [144.999416, -37.781726, 2],
-                        "symbolSize": 4,
-                        "itemStyle": {
-                            "normal": {
-                                "color": "#58B3CC"
-                            }
-                        }
-                    },{
-                        "name": "乌拉圭蒙得维的亚",
-                        "value": [-56.162231, -34.901113, -20],
-                        "symbolSize": 4,
-                        "itemStyle": {
-                            "normal": {
-                                "color": "#58B3CC"
-                            }
-                        }
+                    )
+                };
 
-                    }],
-                    "moveLines": [{
-                        "fromName": "加拿大温哥华",
-                        "toName": "香港",
-                        "coords": [
-                            [-123.023921, 49.311753],
-                            [114.195466, 22.282751]
-                        ]
-                    },{
-                        "fromName": "加拿大温哥华",
-                        "toName": "香港",
-                        "coords": [
-                            [-123.023921, 49.311753],
-                            [114.195466, 22.282751]
-                        ]
-                    },{
-                        "fromName": "美国洛杉矶",
-                        "toName": "香港",
-                        "coords": [
-                            [-118.24311, 34.052713],
-                            [114.195466, 22.282751]
-                        ]
-                    },{
-                        "fromName": "英国曼彻斯特",
-                        "toName": "香港",
-                        "coords": [
-                            [-1.657222, 51.886863],
-                            [114.195466, 22.282751]
-                        ]
-                    },{
-                        "fromName": "澳大利亚墨尔本",
-                        "toName": "香港",
-                        "coords": [
-                            [144.999416, -37.781726],
-                            [114.195466, 22.282751]
-                        ]
-                    },{
-                        "fromName": "加拿大温哥华",
-                        "toName": "香港",
-                        "coords": [
-                            [-123.023921, 49.311753],
-                            [114.195466, 22.282751]
-                        ]
-                    },{
-                        "fromName": "香港",
-                        "toName": "乌拉圭蒙得维的亚",
-                        "coords": [
-                            [114.195466, 22.282751],
-                            [-56.162231, -34.901113]
-                        ]
-                    },{
-                        "fromName": "乌拉圭蒙得维的亚",
-                        "toName": "美国洛杉矶",
-                        "coords": [
-                            [-56.162231, -34.901113],
-                            [-118.24311, 34.052713]
-                        ]
-                    },{
-                        "fromName": "乌拉圭蒙得维的亚",
-                        "toName": "英国曼彻斯特",
-                        "coords": [
-                            [-56.162231, -34.901113],
-                            [-1.657222, 51.886863]
-                        ]
-                    },{
-                        "fromName": "香港",
-                        "toName": "加拿大温哥华",
-                        "coords": [
-                            [114.195466, 22.282751],
-                            [-123.023921, 49.311753],
-
-                        ]
-                    },{
-                        "fromName": "加拿大温哥华",
-                        "toName": "香港",
-                        "coords": [
-                            [-123.023921, 49.311753],
-                            [114.195466, 22.282751]
-                        ]
-                    },]
-                }
 
                 let option = {
                     title: {
@@ -229,7 +127,7 @@
                                 color: '#46bee9'
                             }
                         },
-                        data: allData.citys
+                        data: graph.nodes
                     }, {
                         name: '线路',
                         type: 'lines',
@@ -255,7 +153,7 @@
                                 curveness: 0.2
                             }
                         },
-                        data: allData.moveLines
+                        data: graph.links
                     }]
                 };
 

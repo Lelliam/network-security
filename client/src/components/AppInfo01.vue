@@ -3,13 +3,14 @@
 </template>
 
 <script>
+    import DataManager from "../DataManager/DataManager";
     export default {
         name: "AppInfo01",
         mounted() {
             this.init_chart();
         },
         methods:{
-            init_chart(){
+            init_chart() {
                 let getVirtulData = (year) => {
                     let echarts = this.$echarts;
                     year = year || '2017';
@@ -24,9 +25,8 @@
                         ]);
                     }
                     return data;
-                }
-
-                let data = getVirtulData(2016);
+                };
+                let data = getVirtulData(2019);
 
                 let chart = this.$echarts.init(document.getElementById('info01'));
 
@@ -34,20 +34,19 @@
                     //backgroundColor: '#515a6e',
                     title: {
                         top: 30,
-                        text: '数据纯属虚构',
-                        subtext: '数据纯属虚构',
+                        text: '流量统计',
                         left: 'center',
                         textStyle: {
                             color: '#323c48'
                         }
                     },
-                    tooltip : {
+                    tooltip: {
                         trigger: 'item'
                     },
                     legend: {
                         top: '30',
                         left: '10',
-                        data:['数据', 'TOP12'],
+                        data: ['流量', '异常'],
                         textStyle: {
                             color: '#323c48'
                         }
@@ -55,7 +54,7 @@
                     calendar: [{
                         top: 100,
                         left: '17%',
-                        range: ['2016-01-01', '2016-04-30'],
+                        range: ['2019-01-01', '2019-04-30'],
                         splitLine: {
                             show: true,
                             lineStyle: {
@@ -65,7 +64,7 @@
                             }
                         },
                         yearLabel: {
-                            formatter: '{start}  1st',
+                            formatter: 'YEAR {start} ',
                             textStyle: {
                                 color: '#323c48'
                             }
@@ -83,9 +82,9 @@
                             }
                         }
                     }],
-                    series : [
+                    series: [
                         {
-                            name: '数据',
+                            name: '流量',
                             type: 'scatter',
                             coordinateSystem: 'calendar',
                             data: data,
@@ -99,7 +98,7 @@
                             }
                         },
                         {
-                            name: 'TOP12',
+                            name: '异常',
                             type: 'effectScatter',
                             coordinateSystem: 'calendar',
                             data: data.sort(function (a, b) {
