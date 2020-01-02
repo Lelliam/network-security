@@ -20,6 +20,7 @@
 
                 let echarts = this.$echarts;
                 let chart = this.$echarts.init(document.getElementById('time_line'));
+                let data1 = [];
 
                 let color = ['#1a9bfc', '#99da69', '#e32f46', '#7049f0', '#fa704d', '#01babc', ];
 
@@ -64,12 +65,29 @@
                         padding: [8, 10], //内边距
                         extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
                     },
+                    dataZoom: [{
+                        type: 'slider',
+                        show: false,
+                        height: 20,
+                        left: '5%',
+                        right: '5%',
+                        bottom: '2%',
+                        start: 0,
+                        end: 10,
+                        textStyle: {
+                            color: 'rgba(29,24,26,0.86)',
+                            fontSize: 11,
+                        },
+                    }, {
+                        type: 'inside'
+                    }
+                    ],
                     grid: {
                         borderWidth: 0,
                         left:"5%",
                         width:"90%",
                         top: "10%",
-                        bottom: "10%",
+                        bottom: "15%",
                         textStyle: {
                             color: "#43393e"
                         }
@@ -175,12 +193,27 @@
                 };
 
                 chart.setOption(option);
+
+                let index = 0;
+
+                setInterval(function () {
+                    if(index>9)
+                        index=0;
+                    chart.setOption({
+                        dataZoom: [{
+                            start: index*10,
+                            end: (index+1)*10
+                        }]
+                    })
+                    index++;
+                },2000);
+
             },
             Update(){
                 //let i = 0;
                 //setInterval(()=>{
-                    this.getData(0);
-               /// },1000)
+                this.getData(0);
+                /// },1000)
             }
         }
     }

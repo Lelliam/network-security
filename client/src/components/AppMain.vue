@@ -78,20 +78,20 @@
                         enterable: true,
                         transitionDuration: 0,
                         extraCssText: "z-index:100",
-                        formatter: function(params, ticket, callback) {
-                            //根据业务自己拓展要显示的内容
-                            if(params.seriesType === "effectScatter") {
-                                let res = "";
-                                let name = params.name;
-                                let value = params.value[2];
-                                res =
-                                    "<span style='color:#fff;'>" +
-                                    name +
-                                    "</span><br/>交易量：" +
-                                    value;
-                                return res;
-                            }
-                        }
+                        // formatter: function(params, ticket, callback) {
+                        //     //根据业务自己拓展要显示的内容
+                        //     if(params.seriesType === "effectScatter") {
+                        //         let res = "";
+                        //         let name = params.name;
+                        //         let value = params.value[2];
+                        //         res =
+                        //             "<span style='color:#fff;'>" +
+                        //             name +
+                        //             "</span><br/>交易量：" +
+                        //             value;
+                        //         return res;
+                        //     }
+                        // }
                     },
                     geo: {
                         map: 'world',
