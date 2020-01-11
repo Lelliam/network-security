@@ -9,7 +9,7 @@ from winpcapy import *
 import ctypes
 import pymysql
 
-# conn = pymysql.connect('10.10.4.133','root','123456','network')
+# conn = pymysql.connect('xxxx','root','123456','network')
 #
 # cursor = conn.cursor()
 # sql = "INSERT INTO USER1(name, age) VALUES ('ss', 'ss'),('ss','ss'),();"
@@ -28,7 +28,7 @@ import pymysql
 # conn.close()
 
 def GetData():
-    conn = pymysql.connect('10.10.4.133','root','123456','network')
+    conn = pymysql.connect('xxxx','root','123456','network')
     cursor1 = conn.cursor()
     cursor2 = conn.cursor()
     times = 0
